@@ -15,14 +15,14 @@
   /* Radius */
   --radius: 0.625rem;
 
-  /* Light Mode Colors */
+  /* Light Mode Colors - FIXED */
   --background: #ffffff;       /* white */
   --foreground: #111111;       /* near black */
 
-  --card: #f9f9f9;             /* light gray */
+  --card: #ffffff;             /* Pure white for cards to stand out */
   --card-foreground: #111111;
 
-  --popover: #f9f9f9;
+  --popover: #ffffff;
   --popover-foreground: #111111;
 
   --primary: #111111;          /* black */
@@ -31,16 +31,16 @@
   --secondary: #e5e5e5;        /* light gray */
   --secondary-foreground: #111111;
 
-  --muted: #f0f0f0;
-  --muted-foreground: #555555; /* medium gray */
+  --muted: #f5f5f5;            /* Slightly darker muted for better contrast */
+  --muted-foreground: #666666; /* Better contrast for muted text */
 
   --accent: #333333;           /* dark gray */
   --accent-foreground: #ffffff;
 
   --destructive: #dc2626;      /* red */
 
-  --border: #e5e5e5;
-  --input: #e5e5e5;
+  --border: #e2e2e2;           /* Slightly darker border for visibility */
+  --input: #f8f8f8;           /* Light background for inputs */
   --ring: #333333;
 
   /* Sidebar */
@@ -56,13 +56,13 @@
 
 /* ===== Dark Mode ===== */
 .dark {
-  --background: #111111;       /* black */
+  --background: #0a0a0a;       /* Darker black for better contrast */
   --foreground: #f5f5f5;       /* near white */
 
-  --card: #1a1a1a;             /* very dark gray */
+  --card: #171717;             /* Darker card background */
   --card-foreground: #f5f5f5;
 
-  --popover: #1a1a1a;
+  --popover: #171717;
   --popover-foreground: #f5f5f5;
 
   --primary: #f5f5f5;          /* white */
@@ -71,16 +71,16 @@
   --secondary: #2a2a2a;
   --secondary-foreground: #f5f5f5;
 
-  --muted: #2a2a2a;
-  --muted-foreground: #bbbbbb;
+  --muted: #262626;            /* Darker muted background */
+  --muted-foreground: #a3a3a3; /* Better contrast for dark mode */
 
   --accent: #f5f5f5;
   --accent-foreground: #111111;
 
   --destructive: #f87171;
 
-  --border: #2a2a2a;
-  --input: #2a2a2a;
+  --border: #404040;           /* Lighter border for dark mode visibility */
+  --input: #1f1f1f;           /* Dark input background */
   --ring: #f5f5f5;
 
   /* Sidebar */
@@ -100,22 +100,105 @@
     box-sizing: border-box;
   }
 
+  /* Root and body styling */
+  html {
+    @apply scroll-smooth;
+  }
+
   body {
     @apply bg-background text-foreground font-body antialiased;
+    /* Ensure body has proper background */
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  /* App container styling */
+  #__next, .app-root {
+    @apply bg-background text-foreground font-body antialiased;
+    min-height: 100vh;
   }
 
   h1,h2,h3,h4,h5,h6 {
     font-family: var(--font-heading);
   }
 
+  /* Enhanced glass effect */
   .glass {
     backdrop-filter: blur(16px);
-    background: var(--card);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid hsl(var(--border));
     border-radius: var(--radius);
+  }
+
+  .dark .glass {
+    background: rgba(23, 23, 23, 0.8);
   }
 
   .agent-text {
     font-family: var(--font-agent);
+  }
+
+  /* Card enhancements for better visibility */
+  .card-enhanced {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .card-enhanced {
+    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* ===== Clerk-specific fixes ===== */
+@layer components {
+  /* Force Clerk cards to have proper backgrounds */
+  .cl-card {
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .dark .cl-card {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  /* Ensure form elements have proper backgrounds */
+  .cl-formFieldInput {
+    background: hsl(var(--input)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+  }
+
+  .cl-socialButtonsBlockButton {
+    background: hsl(var(--muted)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+  }
+
+  /* Fix transparent issues */
+  .cl-rootBox {
+    background: transparent !important;
+  }
+
+  .cl-modalBackdrop {
+    background: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(4px) !important;
+  }
+
+  .cl-modalContent {
+    background: hsl(var(--card)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  }
+}
+
+/* ===== Utilities ===== */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .bg-card-solid {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
   }
 }

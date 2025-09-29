@@ -2,9 +2,9 @@
 
 import { motion, easeInOut } from "framer-motion";
 import { Navbar } from "./components/Navbar";
-import { Badge } from "@/components/ui/badge";
+
 import { Button } from "@/components/ui/button";
-import { Sparkles, Zap, Play, ArrowRight } from "lucide-react";
+import {  Zap, Play, ArrowRight } from "lucide-react";
 import Lottie from "lottie-react";
 import { useEffect, useState } from "react";
 
